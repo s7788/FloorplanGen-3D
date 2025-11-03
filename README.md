@@ -60,56 +60,36 @@ FloorplanGen-3D 是一個創新的網頁服務，讓使用者上傳 2D 平面圖
 
 ## 📦 快速開始
 
-### 前置需求
-- Docker & Docker Compose
-- Node.js 18+ (for frontend development)
-- Python 3.11+ (for backend development)
+### 🚀 5 分鐘快速啟動
 
-### 本地開發環境
+使用 Docker Compose 快速啟動所有服務：
 
-1. **Clone 專案**
 ```bash
 git clone https://github.com/s7788/FloorplanGen-3D.git
 cd FloorplanGen-3D
-```
-
-2. **啟動開發環境**
-```bash
 docker-compose up -d
 ```
 
-3. **安裝前端依賴**
-```bash
-cd frontend
-npm install
-npm run dev
-```
+訪問 http://localhost:3000 開始使用！
 
-4. **安裝後端依賴**
-```bash
-cd backend
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload
-```
+詳細步驟請參閱 [QUICKSTART.md](./QUICKSTART.md)
+
+### 前置需求
+- Docker & Docker Compose (推薦)
+- Node.js 18+ (本地前端開發)
+- Python 3.11+ (本地後端開發)
 
 ### 環境變數配置
 
-複製 `.env.example` 為 `.env` 並填入必要資訊：
+複製 `.env.example` 為 `.env`：
 
 ```bash
-# AWS S3
-AWS_ACCESS_KEY_ID=your_key
-AWS_SECRET_ACCESS_KEY=your_secret
-AWS_BUCKET_NAME=floorplangen-storage
-
-# Redis
-REDIS_URL=redis://localhost:6379/0
-
-# Database
-DATABASE_URL=postgresql://user:password@localhost:5432/floorplangen
+cp .env.example .env
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
 ```
+
+> 預設配置適用於本地開發環境
 
 ## 📚 開發階段
 
