@@ -34,7 +34,7 @@ class ImageProcessor:
         walls = self._detect_walls(gray)
         
         # Process rooms
-        rooms = self._detect_rooms(gray, walls)
+        rooms = self._detect_rooms(gray)
         
         # Process doors and windows (simplified)
         doors = self._detect_openings(gray, "door")
@@ -79,7 +79,7 @@ class ImageProcessor:
         
         return walls
     
-    def _detect_rooms(self, gray_image: np.ndarray, walls: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _detect_rooms(self, gray_image: np.ndarray) -> List[Dict[str, Any]]:
         """Detect room boundaries using contour detection"""
         # Apply binary threshold
         _, binary = cv2.threshold(gray_image, 127, 255, cv2.THRESH_BINARY)

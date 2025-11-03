@@ -3,6 +3,7 @@
 import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera, Grid } from '@react-three/drei'
+import { MESSAGES } from '@/lib/constants'
 
 interface ModelViewerProps {
   modelUrl: string | null
@@ -55,7 +56,7 @@ export default function ModelViewer({ modelUrl }: ModelViewerProps) {
               />
             </svg>
             <p className="mt-2 text-sm text-gray-500">
-              上傳平面圖以生成 3D 模型
+              {MESSAGES.UPLOAD_PLACEHOLDER}
             </p>
           </div>
         </div>

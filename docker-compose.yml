@@ -41,6 +41,7 @@ services:
     depends_on:
       - redis
       - postgres
+    # Note: Using --reload for development. For production, remove --reload flag
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
   # Celery worker

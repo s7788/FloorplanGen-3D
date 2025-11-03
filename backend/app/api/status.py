@@ -5,7 +5,9 @@ from app.models.schemas import JobStatusResponse, JobStatus
 
 router = APIRouter()
 
-# In-memory job storage (replace with Redis/Database in production)
+# In-memory job storage for MVP
+# TODO Phase 2: Replace with Redis for persistence and multi-worker support
+# This simple dict is suitable for MVP single-instance development only
 job_storage = {}
 
 

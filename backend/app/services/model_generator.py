@@ -100,15 +100,15 @@ class ModelGenerator:
             }
             
             # Create wall mesh (simplified box representation)
+            # Note: This is a placeholder structure. In production, implement proper
+            # buffer data with vertex positions, normals, and indices
             mesh = {
                 "name": f"WallMesh_{i}",
                 "primitives": [
                     {
                         "material": 0,
                         "mode": 4,  # TRIANGLES
-                        "attributes": {
-                            "POSITION": -1  # Placeholder - in production, reference buffer data
-                        }
+                        # Note: attributes should reference bufferView indices in production
                     }
                 ]
             }
@@ -136,15 +136,15 @@ class ModelGenerator:
             }
             
             # Create floor mesh
+            # Note: This is a placeholder structure. In production, implement proper
+            # buffer data with vertex positions, normals, and indices
             mesh = {
                 "name": f"FloorMesh_{room['id']}",
                 "primitives": [
                     {
                         "material": 1,
                         "mode": 4,
-                        "attributes": {
-                            "POSITION": -1  # Placeholder
-                        }
+                        # Note: attributes should reference bufferView indices in production
                     }
                 ]
             }

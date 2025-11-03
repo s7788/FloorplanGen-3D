@@ -3,6 +3,7 @@
 import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import axios from 'axios'
+import { MESSAGES, API_CONFIG } from '@/lib/constants'
 
 interface FileUploaderProps {
   onUploadSuccess: (jobId: string) => void
@@ -33,7 +34,7 @@ export default function FileUploader({ onUploadSuccess }: FileUploaderProps) {
       onUploadSuccess(response.data.job_id)
     } catch (err: any) {
       console.error('Upload error:', err)
-      setError(err.response?.data?.detail || '上傳失敗，請重試')
+      setError(err.response?.data?.detail || MESSAGES.UPLOAD_ERROR_DEFAULT)
     } finally {
       setUploading(false)
     }
@@ -41,12 +42,9 @@ export default function FileUploader({ onUploadSuccess }: FileUploaderProps) {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: {
-      'image/jpeg': ['.jpg', '.jpeg'],
-      'image/png': ['.png'],
-    },
+    accept: API_CONFIG.ACCEPTED_FORMATS,
     maxFiles: 1,
-    maxSize: 10 * 1024 * 1024, // 10MB
+    maxSize: API_CONFIG.MAX_FILE_SIZE,
   })
 
   return (
@@ -63,7 +61,7 @@ export default function FileUploader({ onUploadSuccess }: FileUploaderProps) {
         {uploading ? (
           <div className="py-8">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-            <p className="mt-4 text-sm text-gray-600">上傳中...</p>
+            <p className="mt-4 text-sm text-gray-600">{MESSAGES.UPLOADING}</p>
           </div>
         ) : (
           <>
@@ -82,10 +80,10 @@ export default function FileUploader({ onUploadSuccess }: FileUploaderProps) {
               />
             </svg>
             <p className="mt-2 text-sm text-gray-600">
-              {isDragActive ? '放開檔案上傳' : '拖放檔案或點擊選擇'}
+              {isDragActive ? MESSAGES.DRAG_DROP_ACTIVE : MESSAGES.DRAG_DROP}
             </p>
             <p className="mt-1 text-xs text-gray-500">
-              支援 JPG, PNG (最大 10MB)
+              {MESSAGES.FILE_SUPPORT}
             </p>
           </>
         )}
