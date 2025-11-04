@@ -2,6 +2,7 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
 from pathlib import Path
+import re
 from app.core.config import settings
 
 router = APIRouter()
@@ -18,25 +19,19 @@ async def get_model(filename: str):
     Returns:
         File content
     """
-    # Validate filename to prevent path traversal
-    file_path_obj = Path(filename)
-    if file_path_obj.is_absolute() or ".." in file_path_obj.parts:
-        raise HTTPException(status_code=400, detail="Invalid filename")
+    # Strict validation: only allow alphanumeric, hyphens, underscores, and dots
+    # This prevents any path traversal attempts
+    if not re.match(r'^[a-zA-Z0-9_-]+\.(gltf|glb|json)$', filename):
+        raise HTTPException(status_code=400, detail="Invalid filename format")
     
-    # Check file extension
+    # Check file extension (redundant but explicit)
     allowed_extensions = ['.gltf', '.glb', '.json']
     if not any(filename.endswith(ext) for ext in allowed_extensions):
         raise HTTPException(status_code=400, detail="Invalid file type")
     
-    # Construct file path
+    # Construct file path - now safe because filename is validated
     models_dir = Path(settings.UPLOAD_DIR) / "models"
-    file_path = (models_dir / filename).resolve()
-    
-    # Ensure resolved path is within models directory (prevent path traversal)
-    try:
-        file_path.relative_to(models_dir.resolve())
-    except ValueError:
-        raise HTTPException(status_code=400, detail="Invalid filename")
+    file_path = models_dir / filename
     
     # Check if file exists
     if not file_path.exists() or not file_path.is_file():
