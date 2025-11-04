@@ -7,6 +7,7 @@ from pathlib import Path
 from app.models.schemas import UploadResponse, JobStatus
 from app.core.config import settings
 from app.services.image_processor import ImageProcessor
+from app.tasks import process_floorplan
 
 router = APIRouter()
 
@@ -48,9 +49,8 @@ async def upload_floorplan(file: UploadFile = File(...)):
     with open(file_path, "wb") as f:
         f.write(content)
     
-    # Queue processing task (placeholder for now)
-    # In production, this would trigger a Celery task
-    # process_floorplan.delay(job_id, str(file_path))
+    # Queue processing task
+    process_floorplan.delay(job_id, str(file_path))
     
     return UploadResponse(
         job_id=job_id,

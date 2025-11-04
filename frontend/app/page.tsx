@@ -3,16 +3,21 @@
 import { useState } from 'react'
 import FileUploader from '@/components/FileUploader'
 import ModelViewer from '@/components/ModelViewer'
+import { useJobStatus } from '@/lib/hooks'
+import { JOB_STATUS } from '@/lib/constants'
 
 export default function Home() {
   const [jobId, setJobId] = useState<string | null>(null)
-  const [modelUrl, setModelUrl] = useState<string | null>(null)
+  const { status, isPolling, error } = useJobStatus(jobId)
 
   const handleUploadSuccess = (uploadedJobId: string) => {
     setJobId(uploadedJobId)
-    // In production, poll for job status and update modelUrl when ready
-    console.log('Upload successful, job ID:', uploadedJobId)
   }
+
+  // Get model URL from status
+  const modelUrl = status?.result_url 
+    ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}${status.result_url}`
+    : null
 
   return (
     <main className="min-h-screen">
@@ -36,14 +41,38 @@ export default function Home() {
             <h2 className="text-xl font-semibold mb-4">上傳平面圖</h2>
             <FileUploader onUploadSuccess={handleUploadSuccess} />
             
-            {jobId && (
-              <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-md">
-                <p className="text-sm text-blue-800">
-                  <span className="font-medium">Job ID:</span> {jobId}
-                </p>
-                <p className="text-xs text-blue-600 mt-1">
-                  處理中... 請稍候
-                </p>
+            {jobId && status && (
+              <div className={`mt-4 p-4 rounded-md border ${
+                status.status === JOB_STATUS.COMPLETED ? 'bg-green-50 border-green-200' :
+                status.status === JOB_STATUS.FAILED ? 'bg-red-50 border-red-200' :
+                status.status === JOB_STATUS.PROCESSING ? 'bg-blue-50 border-blue-200' :
+                'bg-gray-50 border-gray-200'
+              }`}>
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-sm font-medium">
+                    {status.status === JOB_STATUS.COMPLETED && '✅ 完成'}
+                    {status.status === JOB_STATUS.FAILED && '❌ 失敗'}
+                    {status.status === JOB_STATUS.PROCESSING && '⏳ 處理中'}
+                    {status.status === JOB_STATUS.PENDING && '⏸️ 等待中'}
+                  </p>
+                  <span className="text-sm font-semibold">{status.progress}%</span>
+                </div>
+                
+                {/* Progress bar */}
+                {status.status !== JOB_STATUS.COMPLETED && status.status !== JOB_STATUS.FAILED && (
+                  <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
+                    <div 
+                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${status.progress}%` }}
+                    />
+                  </div>
+                )}
+                
+                <p className="text-xs text-gray-600">{status.message}</p>
+                
+                {error && (
+                  <p className="text-xs text-red-600 mt-2">{error}</p>
+                )}
               </div>
             )}
           </div>
