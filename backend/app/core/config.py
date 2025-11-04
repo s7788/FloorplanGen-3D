@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     # API Settings
     API_V1_PREFIX: str = "/api/v1"
     PROJECT_NAME: str = "FloorplanGen-3D"
-    VERSION: str = "0.1.0"
+    VERSION: str = "0.2.0"
     
     # CORS
     ALLOWED_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:3001"]

@@ -95,16 +95,18 @@ cp frontend/.env.example frontend/.env
 
 詳細開發路線圖請參閱 [PROJECT_ROADMAP.md](./PROJECT_ROADMAP.md)
 
-### Phase 1: MVP (進行中 🔄)
-- [ ] 基礎前端介面
-- [ ] 檔案上傳 API
-- [ ] 簡化版 CV 處理（規則基礎）
-- [ ] 基礎 3D 生成
+### Phase 1: MVP ✅
+- ✅ 基礎前端介面
+- ✅ 檔案上傳 API
+- ✅ 簡化版 CV 處理（規則基礎）
+- ✅ 基礎 3D 生成
 
-### Phase 2: AI 增強
-- [ ] 深度學習模型訓練
-- [ ] U-Net 牆體分割
-- [ ] 房間類型分類
+### Phase 2: AI 增強 ✅
+- ✅ 深度學習模型架構
+- ✅ U-Net 牆體分割
+- ✅ ResNet 房間類型分類
+- ✅ Faster R-CNN 門窗偵測
+- [ ] 模型訓練（需要數據集）
 
 ### Phase 3: 進階功能
 - [ ] 程序化傢俱佈置
@@ -114,6 +116,7 @@ cp frontend/.env.example frontend/.env
 ## 📖 文件
 
 - [API 文件](./docs/API.md)
+- [AI 增強技術文件](./docs/AI_ENHANCEMENT.md)
 - [資料結構說明](./docs/DATA_STRUCTURE.md)
 - [開發指南](./docs/DEVELOPMENT.md)
 - [部署指南](./docs/DEPLOYMENT.md)
@@ -132,4 +135,4 @@ MIT License
 
 ---
 
-**專案狀態**: 🚧 開發中 | **當前版本**: 0.1.0-alpha | **最後更新**: 2025-11-03
+**專案狀態**: 🚧 開發中 | **當前版本**: 0.2.0-beta | **最後更新**: 2025-11-04

@@ -7,7 +7,7 @@ from app.core.config import settings
 app = FastAPI(
     title="FloorplanGen-3D API",
     description="API for converting 2D floorplans to 3D models",
-    version="0.1.0"
+    version="0.2.0"
 )
 
 # CORS middleware configuration
@@ -30,7 +30,7 @@ async def root():
     """Root endpoint"""
     return {
         "message": "FloorplanGen-3D API",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "status": "running"
     }
 
