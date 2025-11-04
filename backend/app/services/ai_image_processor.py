@@ -2,6 +2,7 @@
 import cv2
 import numpy as np
 import torch
+import logging
 from typing import Dict, List, Any, Tuple
 from pathlib import Path
 
@@ -15,6 +16,8 @@ from app.ml.utils.preprocessing import (
 )
 from app.ml.models.room_classifier import get_room_type_name
 from app.ml.models.opening_detector import get_opening_type_name, filter_detections
+
+logger = logging.getLogger(__name__)
 
 
 class AIImageProcessor:
@@ -334,16 +337,31 @@ class AIImageProcessor:
         """
         Sliding window detection for simplified detector
         
+        Note: This is a placeholder implementation that returns empty results.
+        For production use with the simplified detector, implement proper sliding
+        window detection with non-maximum suppression.
+        
         Args:
             image: Input image
             detector: Detection model
             opening_type: Type of opening to detect
         
         Returns:
-            List of detections
+            List of detections (empty in current implementation)
+        
+        Recommended implementation:
+            1. Define window size and stride
+            2. Slide window across image
+            3. Classify each window
+            4. Apply non-maximum suppression
+            5. Return filtered detections
         """
-        # For MVP, return empty list
-        # In production, implement sliding window with NMS
+        # Placeholder: Return empty list
+        # The Faster R-CNN path will be used for actual detection
+        logger.warning(
+            "Simplified detector sliding window not implemented. "
+            "Use Faster R-CNN detector for production or implement sliding window."
+        )
         return []
     
     def _process_detection_output(

@@ -41,20 +41,48 @@ class FloorplanDataset(Dataset):
         self._load_dataset()
     
     def _load_dataset(self):
-        """Load dataset file list"""
-        # Implementation depends on dataset structure
-        # This is a placeholder for demonstration
-        pass
+        """
+        Load dataset file list
+        
+        Note: This is a placeholder implementation. In production, implement
+        proper dataset loading based on your data structure.
+        
+        Example implementation:
+            if self.task == "segmentation":
+                self.images = list(self.data_dir.glob("images/*.jpg"))
+                self.masks = list(self.data_dir.glob("masks/*.png"))
+            elif self.task == "classification":
+                self.samples = [(img, label) for img, label in dataset]
+        """
+        # Placeholder: Initialize empty lists
+        self.samples = []
+        logger.warning(
+            "FloorplanDataset is using placeholder implementation. "
+            "Implement _load_dataset() for actual dataset loading."
+        )
     
     def __len__(self) -> int:
         """Return dataset size"""
-        return 0  # Placeholder
+        return len(self.samples)
     
     def __getitem__(self, idx: int) -> Tuple[torch.Tensor, torch.Tensor]:
-        """Get item by index"""
-        # Implementation depends on task
-        # This is a placeholder for demonstration
-        pass
+        """
+        Get item by index
+        
+        Note: This is a placeholder implementation. In production, implement
+        proper data loading and preprocessing.
+        
+        Returns:
+            Tuple of (image tensor, target tensor)
+        
+        Raises:
+            NotImplementedError: When called with placeholder implementation
+        """
+        raise NotImplementedError(
+            "FloorplanDataset.__getitem__ is not implemented. "
+            "This is a placeholder for demonstration. Implement proper data "
+            "loading based on your task (segmentation/classification/detection)."
+        )
 
 
 class Trainer:
