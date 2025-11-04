@@ -23,6 +23,10 @@ celery_app.conf.update(
     enable_utc=True,
 )
 
+# Ensure models directory exists at module load time
+models_dir = Path(settings.UPLOAD_DIR) / "models"
+models_dir.mkdir(parents=True, exist_ok=True)
+
 
 @celery_app.task(bind=True)
 def process_floorplan(self, job_id: str, file_path: str) -> Dict[str, Any]:
@@ -54,10 +58,7 @@ def process_floorplan(self, job_id: str, file_path: str) -> Dict[str, Any]:
         
         # Step 2: Generate 3D model
         generator = ModelGenerator()
-        output_dir = Path(settings.UPLOAD_DIR) / "models"
-        output_dir.mkdir(parents=True, exist_ok=True)
-        
-        output_path = output_dir / f"{job_id}.gltf"
+        output_path = models_dir / f"{job_id}.gltf"
         model_path = generator.generate_3d_model(analysis, str(output_path))
         
         self.update_state(
@@ -66,7 +67,7 @@ def process_floorplan(self, job_id: str, file_path: str) -> Dict[str, Any]:
         )
         
         # Save analysis result
-        analysis_path = output_dir / f"{job_id}_analysis.json"
+        analysis_path = models_dir / f"{job_id}_analysis.json"
         with open(analysis_path, 'w') as f:
             json.dump(analysis, f, indent=2)
         

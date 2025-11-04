@@ -4,7 +4,7 @@ import { useState } from 'react'
 import FileUploader from '@/components/FileUploader'
 import ModelViewer from '@/components/ModelViewer'
 import { useJobStatus } from '@/lib/hooks'
-import { JOB_STATUS } from '@/lib/constants'
+import { JOB_STATUS, API_CONFIG } from '@/lib/constants'
 
 export default function Home() {
   const [jobId, setJobId] = useState<string | null>(null)
@@ -16,7 +16,7 @@ export default function Home() {
 
   // Get model URL from status
   const modelUrl = status?.result_url 
-    ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}${status.result_url}`
+    ? `${API_CONFIG.BASE_URL}${status.result_url}`
     : null
 
   return (

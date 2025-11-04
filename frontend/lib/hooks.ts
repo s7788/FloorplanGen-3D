@@ -23,8 +23,7 @@ export function useJobStatus(jobId: string | null) {
     if (!jobId) return
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
-      const response = await axios.get(`${apiUrl}/api/v1/status/${jobId}`)
+      const response = await axios.get(`${API_CONFIG.BASE_URL}/api/v1/status/${jobId}`)
       const data = response.data as JobStatusData
 
       setStatus(data)

@@ -19,7 +19,8 @@ async def get_model(filename: str):
         File content
     """
     # Validate filename to prevent path traversal
-    if ".." in filename or "/" in filename or "\\" in filename:
+    file_path_obj = Path(filename)
+    if file_path_obj.is_absolute() or ".." in file_path_obj.parts:
         raise HTTPException(status_code=400, detail="Invalid filename")
     
     # Check file extension
@@ -29,7 +30,13 @@ async def get_model(filename: str):
     
     # Construct file path
     models_dir = Path(settings.UPLOAD_DIR) / "models"
-    file_path = models_dir / filename
+    file_path = (models_dir / filename).resolve()
+    
+    # Ensure resolved path is within models directory (prevent path traversal)
+    try:
+        file_path.relative_to(models_dir.resolve())
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid filename")
     
     # Check if file exists
     if not file_path.exists() or not file_path.is_file():

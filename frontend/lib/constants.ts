@@ -18,6 +18,9 @@ export const API_CONFIG = {
   },
   MAX_FILE_SIZE: 10 * 1024 * 1024, // 10MB
   POLL_INTERVAL: 2000, // 2 seconds
+  BASE_URL: typeof window !== 'undefined' 
+    ? (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000')
+    : 'http://localhost:8000',
 }
 
 export const JOB_STATUS = {
