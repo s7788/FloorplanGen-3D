@@ -10,3 +10,10 @@ redis==5.0.1
 celery==5.3.4
 boto3==1.29.7
 python-dotenv==1.0.0
+
+# Deep Learning Dependencies for Phase 2
+torch==2.1.1
+torchvision==0.16.1
+onnx==1.15.0
+onnxruntime==1.16.3
+scikit-image==0.22.0

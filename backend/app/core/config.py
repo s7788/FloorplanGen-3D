@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     # API Settings
     API_V1_PREFIX: str = "/api/v1"
     PROJECT_NAME: str = "FloorplanGen-3D"
-    VERSION: str = "0.1.0"
+    VERSION: str = "0.2.0"
     
     # CORS
     ALLOWED_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:3001"]
@@ -30,6 +30,11 @@ class Settings(BaseSettings):
     
     # Database
     DATABASE_URL: str = "postgresql://user:password@localhost:5432/floorplangen"
+    
+    # AI/ML Settings (Phase 2)
+    USE_AI_PROCESSING: bool = True  # Toggle between rule-based and AI processing
+    MODEL_DIR: str = "./models"  # Directory for ML model weights
+    USE_GPU: bool = True  # Use GPU for inference if available
     
     class Config:
         env_file = ".env"
