@@ -49,8 +49,8 @@ async def upload_floorplan(file: UploadFile = File(...)):
     with open(file_path, "wb") as f:
         f.write(content)
     
-    # Queue processing task
-    process_floorplan.delay(job_id, str(file_path))
+    # Queue processing task with specific task_id matching job_id
+    process_floorplan.apply_async(args=[job_id, str(file_path)], task_id=job_id)
     
     return UploadResponse(
         job_id=job_id,
