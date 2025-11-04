@@ -1,7 +1,7 @@
 """Celery tasks for asynchronous processing"""
 from celery import Celery
 from app.core.config import settings
-from app.services.image_processor import ImageProcessor
+from app.services.processor_factory import get_image_processor
 from app.services.model_generator import ModelGenerator
 from pathlib import Path
 import json
@@ -47,8 +47,8 @@ def process_floorplan(self, job_id: str, file_path: str) -> Dict[str, Any]:
             meta={'progress': 10, 'message': 'Starting image analysis...'}
         )
         
-        # Step 1: Process image with CV
-        processor = ImageProcessor()
+        # Step 1: Process image with CV (uses AI if enabled)
+        processor = get_image_processor()
         analysis = processor.process_floorplan(file_path)
         
         self.update_state(

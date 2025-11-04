@@ -31,6 +31,11 @@ class Settings(BaseSettings):
     # Database
     DATABASE_URL: str = "postgresql://user:password@localhost:5432/floorplangen"
     
+    # AI/ML Settings (Phase 2)
+    USE_AI_PROCESSING: bool = True  # Toggle between rule-based and AI processing
+    MODEL_DIR: str = "./models"  # Directory for ML model weights
+    USE_GPU: bool = True  # Use GPU for inference if available
+    
     class Config:
         env_file = ".env"
         case_sensitive = True
