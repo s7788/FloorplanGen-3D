@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
 from pathlib import Path
 import re
+import os
 from app.core.config import settings
 
 router = APIRouter()
@@ -29,23 +30,33 @@ async def get_model(filename: str):
     if not any(filename.endswith(ext) for ext in allowed_extensions):
         raise HTTPException(status_code=400, detail="Invalid file type")
     
-    # Construct file path - now safe because filename is validated
+    # Construct file path - use os.path.basename to ensure no directory traversal
+    # Even though filename is validated, this satisfies static analysis
+    safe_filename = os.path.basename(filename)
     models_dir = Path(settings.UPLOAD_DIR) / "models"
-    file_path = models_dir / filename
+    file_path = models_dir / safe_filename
+    
+    # Verify the resolved path is within the models directory
+    try:
+        file_path = file_path.resolve()
+        models_dir_resolved = models_dir.resolve()
+        file_path.relative_to(models_dir_resolved)
+    except (ValueError, RuntimeError):
+        raise HTTPException(status_code=400, detail="Invalid file path")
     
     # Check if file exists
     if not file_path.exists() or not file_path.is_file():
         raise HTTPException(status_code=404, detail="File not found")
     
-    # Determine media type
+    # Determine media type based on validated extension
     media_type = "application/json"
-    if filename.endswith('.gltf'):
+    if safe_filename.endswith('.gltf'):
         media_type = "model/gltf+json"
-    elif filename.endswith('.glb'):
+    elif safe_filename.endswith('.glb'):
         media_type = "model/gltf-binary"
     
     return FileResponse(
-        path=file_path,
+        path=str(file_path),
         media_type=media_type,
-        filename=filename
+        filename=safe_filename
     )
