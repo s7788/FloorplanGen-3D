@@ -1,7 +1,7 @@
 """Main FastAPI application entry point"""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api import upload, status
+from app.api import upload, status, models
 from app.core.config import settings
 
 app = FastAPI(
@@ -22,6 +22,7 @@ app.add_middleware(
 # Include routers
 app.include_router(upload.router, prefix="/api/v1", tags=["upload"])
 app.include_router(status.router, prefix="/api/v1", tags=["status"])
+app.include_router(models.router, prefix="/api/v1", tags=["models"])
 
 
 @app.get("/")

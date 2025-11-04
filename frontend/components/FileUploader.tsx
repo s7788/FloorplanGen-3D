@@ -24,8 +24,7 @@ export default function FileUploader({ onUploadSuccess }: FileUploaderProps) {
       const formData = new FormData()
       formData.append('file', file)
 
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
-      const response = await axios.post(`${apiUrl}/api/v1/upload`, formData, {
+      const response = await axios.post(`${API_CONFIG.BASE_URL}/api/v1/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
