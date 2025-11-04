@@ -1,0 +1,12 @@
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+pydantic==2.5.0
+pydantic-settings==2.1.0
+opencv-python==4.8.1.78
+numpy==1.26.2
+pillow==10.1.0
+redis==5.0.1
+celery==5.3.4
+boto3==1.29.7
+python-dotenv==1.0.0
